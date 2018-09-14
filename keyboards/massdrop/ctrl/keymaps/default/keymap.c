@@ -58,18 +58,6 @@ const uint16_t PROGMEM fn_actions[] = {
 
 };
 
-// void led_run_user(led_disp_t disp, uint8_t led_index, issi3733_led_t *led, uint8_t kbled) {
-//     if (led_index == 15) {
-//         *led->rgb.r = (uint8_t) 0;
-//         *led->rgb.g = (uint8_t) 50;
-//         *led->rgb.b = (uint8_t) 0;
-//     } else {
-//         *led->rgb.r = (uint8_t) 100;
-//         *led->rgb.g = (uint8_t) 0;
-//         *led->rgb.b = (uint8_t) 0;
-//     }
-// }
-
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
 };
@@ -211,5 +199,117 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         default:
             return true; //Process all other keycodes normally
+    }
+}
+
+uint8_t cur_layer = 0;
+
+uint32_t layer_state_set_user(uint32_t state) {
+    cur_layer = biton32(state);
+    return state;
+}
+
+// TODO: make pattern not dependent on base pattern ordering
+// TODO: allow array of patterns so next/prev pattern key does something?
+typedef struct led_config_s {
+    led_solid_t solid;
+    uint8_t p_id; // pattern ID
+} led_config_t;
+
+// const led_config_t led_configs[][ISSI3733_LED_COUNT] = {
+const led_config_t led_configs[][34] = {
+    // [1] = {
+    //     [1] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [2] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [3] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [4] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [5] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [6] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [7] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [8] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [9] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [10] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [11] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [12] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [13] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [14] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [15] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [16] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [17] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [18] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [19] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [20] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [21] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [22] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [23] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [24] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [25] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [26] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [27] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [28] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [29] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [30] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [31] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    //     [32] = { .solid = { .r = 0, .g = 0, .b = 255 } },
+    //     [33] = { .solid = { .r = 255, .g = 0, .b = 0 } },
+    // },
+    [1] = \0,
+    [0] = {
+        [1] = { .p_id = 1 },
+        [2] = { .p_id = 1 },
+        [3] = { .p_id = 1 },
+        [4] = { .p_id = 1 },
+        [5] = { .p_id = 1 },
+        [6] = { .p_id = 1 },
+        [7] = { .p_id = 1 },
+        [8] = { .p_id = 1 },
+        [9] = { .p_id = 1 },
+        [10] = { .p_id = 1 },
+        [11] = { .p_id = 1 },
+        [12] = { .p_id = 1 },
+        [13] = { .p_id = 1 },
+        [14] = { .p_id = 1 },
+        [15] = { .p_id = 1 },
+        [16] = { .p_id = 1 },
+        [17] = { .p_id = 1 },
+        [18] = { .p_id = 1 },
+        [19] = { .p_id = 1 },
+        [20] = { .p_id = 1 },
+        [21] = { .p_id = 1 },
+        [22] = { .p_id = 1 },
+        [23] = { .p_id = 1 },
+        [24] = { .p_id = 1 },
+        [25] = { .p_id = 1 },
+        [26] = { .p_id = 1 },
+        [27] = { .p_id = 1 },
+        [28] = { .p_id = 1 },
+        [29] = { .p_id = 1 },
+        [30] = { .p_id = 1 },
+        [31] = { .p_id = 1 },
+        [32] = { .p_id = 1 },
+        [33] = { .p_id = 1 }
+    }
+};
+
+void led_run_user(led_disp_t disp, issi3733_led_t *led, uint8_t kbled) {
+    // led_config_t led_config = led_configs[cur_layer][led->id];
+
+    if (led->id < 34 && led->id > 0) {
+    // if (led_config != NULL) {
+        if (led_configs[cur_layer] != NULL) {
+            led_config_t led_config = led_configs[cur_layer][led->id];
+            led_setup_t *f = (led_setup_t*) led_setups[led_config.p_id];
+            led_run_pattern(f, disp, led, kbled);
+        } else {
+            *led->rgb.r = 0;
+            *led->rgb.g = 0;
+            *led->rgb.b = 0;
+        }
+        // else {
+        //     *led->rgb.r = led_config.solid.r;
+        //     *led->rgb.g = led_config.solid.g;
+        //     *led->rgb.b = led_config.solid.b;
+        // }
+    // }
     }
 }
